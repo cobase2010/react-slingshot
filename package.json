@@ -11,7 +11,7 @@
     "remove-demo": "babel-node tools/removeDemo.js",
     "start-message": "babel-node tools/startMessage.js",
     "prestart": "npm-run-all --parallel start-message remove-dist",
-    "start": "npm-run-all --parallel test:watch open:src lint:watch",
+    "start": "npm-run-all --parallel security-check test:watch open:src lint:watch",
     "open:src": "babel-node tools/srcServer.js",
     "open:dist": "babel-node tools/distServer.js",
     "lint": "esw webpack.config.* src tools --color",
@@ -25,7 +25,10 @@
     "test:cover:travis": "babel-node node_modules/isparta/bin/isparta cover --root src --report lcovonly _mocha -- --require ./tools/testSetup.js \"./{,!(node_modules)/**/}*.spec.js\" && cat ./coverage/lcov.info | node_modules/coveralls/bin/coveralls.js",
     "test:watch": "npm run test -- --watch",
     "open:cover": "npm run test:cover && open coverage/index.html",
-    "analyze-bundle": "babel-node ./tools/analyzeBundle.js"
+    "analyze-bundle": "babel-node ./tools/analyzeBundle.js",
+    "security-check": "nsp check",
+    "localtunnel": "lt --port 3000",
+    "share": "npm-run-all --parallel open:src localtunnel"
   },
   "author": "Cory House",
   "license": "MIT",
@@ -71,6 +74,7 @@
     "html-webpack-plugin": "2.24.0",
     "isparta": "4.0.0",
     "istanbul": "0.4.4",
+    "jsdom": "9.8.3",
     "json-loader": "0.5.4",
     "mocha": "3.1.2",
     "mockdate": "1.0.4",
